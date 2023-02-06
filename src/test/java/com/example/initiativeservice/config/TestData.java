@@ -7,6 +7,7 @@ import com.example.initiativeservice.model.InitiativeResponse;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class TestData {
 
@@ -29,7 +30,6 @@ public class TestData {
             .startDate(TEST_START_DATE)
             .endDate(TEST_END_DATE)
             .build();
-
     public static InitiativeResponse initiativeResponse2 = InitiativeResponse
             .builder()
             .id(2L)
@@ -47,6 +47,7 @@ public class TestData {
             .endDate(TEST_END_DATE)
             .dependencies(List.of(InitiativeResponse.builder().dependencies(List.of(initiativeResponse2)).build()))
             .build();
+    public static Map<Long,InitiativeResponse> initiativeResponseMap = Map.of(1L,initiativeResponse,2L,initiativeResponse2);
 
 
     public static Initiative initiative = Initiative
@@ -76,6 +77,8 @@ public class TestData {
             .endDate(TEST_END_DATE)
             .dependencies(List.of(Dependency.builder().dependency(1L).build(),Dependency.builder().dependency(3L).build()))
             .build();
+
+    public static List<Initiative> initiatives = List.of(initiative,nestedInitiative);
 
 
 

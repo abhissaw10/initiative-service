@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
-import static com.example.initiativeservice.config.TestData.initiativeRequest;
-import static com.example.initiativeservice.config.TestData.initiativeResponse;
+import static com.example.initiativeservice.config.TestData.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -70,6 +69,16 @@ public class InitiativeControllerTest {
                 .perform(get("/v1/initiatives/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(initiativeResponse)));
+    }
+
+    @Test
+    public void givenListOfIds_shouldReturnInitiativeMapMatchingIds() throws Exception {
+        Long[] ids = {1L,2L};
+        when(initiativeService.getByIds(ids)).thenReturn(initiativeResponseMap);
+        mockMvc.perform(get("/v1/initiatives/byIds").contentType(MediaType.APPLICATION_JSON).queryParam("ids","1","2"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(initiativeResponseMap)));
+
     }
 
 

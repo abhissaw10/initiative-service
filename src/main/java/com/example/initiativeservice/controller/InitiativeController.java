@@ -6,8 +6,9 @@ import com.example.initiativeservice.service.InitiativeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Map;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -34,4 +35,16 @@ public class InitiativeController {
     public InitiativeResponse getAll(@PathVariable Long initiativeId){
         return initiativeService.get(initiativeId);
     }
+
+    @GetMapping("/v1/initiatives/byIds")
+    public Map<Long,InitiativeResponse> getByIds(@RequestParam("ids") String[] initiativeIds){
+        Long[] ids = new Long[initiativeIds.length];
+        int index=0;
+        for(String initiative: initiativeIds){
+            ids[index++]=Long.parseLong(initiative);
+        }
+        return initiativeService.getByIds(ids);
+    }
+
+
 }

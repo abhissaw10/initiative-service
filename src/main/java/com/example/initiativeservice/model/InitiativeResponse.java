@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Builder
 @Data
@@ -29,5 +31,13 @@ public class InitiativeResponse {
                 .status(initiative.getStatus())
                 .successCriteria(initiative.getSuccessCriteria())
                 .build();
+    }
+
+    public  static Map<Long, InitiativeResponse> extracted(List<Initiative> initiatives) {
+        Map<Long, InitiativeResponse> initiativeMap = new HashMap();
+        for(Initiative initiative: initiatives){
+           initiativeMap.put(initiative.getId(), toInitiativeResponse(initiative));
+        }
+        return initiativeMap;
     }
 }

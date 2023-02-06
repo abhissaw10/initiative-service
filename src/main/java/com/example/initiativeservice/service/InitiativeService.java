@@ -10,11 +10,8 @@ import com.example.initiativeservice.repository.InitiativeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.initiativeservice.model.InitiativeRequest.toInitiative;
@@ -59,6 +56,12 @@ public class InitiativeService {
     public InitiativeResponse get(long id) {
         Optional<Initiative> initiativeOptional = initiativeRepository.findById(id);
         return getDependencies(initiativeOptional.get());
+    }
+
+    public Map<Long, InitiativeResponse> getByIds(Long[] initiativeIds) {
+         List<Initiative> initiatives = initiativeRepository.findAllById(Arrays.stream(initiativeIds).collect(Collectors.toList()));
+
+        return InitiativeResponse.extracted(initiatives);
     }
 
     /**

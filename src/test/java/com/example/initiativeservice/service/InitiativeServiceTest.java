@@ -1,5 +1,6 @@
 package com.example.initiativeservice.service;
 
+import com.example.initiativeservice.config.TestData;
 import com.example.initiativeservice.entity.Initiative;
 import com.example.initiativeservice.model.InitiativeRequest;
 import com.example.initiativeservice.model.InitiativeResponse;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.example.initiativeservice.config.TestData.*;
@@ -99,6 +101,17 @@ public class InitiativeServiceTest {
         List<InitiativeResponse> response = initiativeService.getAll();
         assertThat(response).isNotNull();
         assertThat(response.get(0).getDependencies().get(0).getTitle()).isEqualTo(TEST_TITLE_1);
+    }
+
+    @Test
+    public void givenRequestWithInitiativeIds_shouldReturnAllInitiatives(){
+        Long[] ids = {1L,2L};
+        when(repository.findAllById(List.of(1L,2L))).thenReturn(initiatives);
+        Map<Long,InitiativeResponse> response = initiativeService.getByIds(ids);
+        assertThat(response).isNotNull();
+        assertThat(response.get(1L).getTitle()).isEqualTo(TEST_TITLE_1);
+        assertThat(response.get(1L).getStatus()).isEqualTo(TEST_STATUS);
+        assertThat(response.get(2L).getTitle()).isEqualTo(TEST_TITLE_2);
     }
 
 }
